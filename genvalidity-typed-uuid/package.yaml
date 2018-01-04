@@ -1,0 +1,44 @@
+name:                genvalidity-typed-uuid
+version:             0.0.0.0
+github:              "NorfairKing/typed-uuid"
+license:             AllRightsReserved
+author:              "Tom Sydney Kerckhove"
+maintainer:          "syd.kerckhove@gmail.com"
+copyright:           "Copyright: (c) 2018 Tom Sydney Kerckhove"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+synopsis:            Generators for Phantom-Typed version of UUID
+category:            Data
+
+description:         Please see the README on Github at <https://github.com/NorfairKing/typed-uuid#readme>
+
+dependencies:
+- QuickCheck
+- base >= 4.7 && < 5
+- genvalidity
+- genvalidity-uuid >=0.0 && <0.1
+- typed-uuid >=0.0 && <0.1
+
+library:
+  source-dirs: src
+  exposed-modules:
+    Data.GenValidity.UUID.Typed
+
+tests:
+  typed-uuid-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - hspec
+    - typed-uuid
+    - genvalidity-uuid
+    - genvalidity-typed-uuid
+    - genvalidity-hspec
+    - genvalidity-hspec-aeson
