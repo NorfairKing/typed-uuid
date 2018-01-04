@@ -20,7 +20,6 @@ install:
   - stack setup
   - stack build --only-snapshot
   - stack install hindent
-  - stack install cabal-install
 
 script:
   - git --version
