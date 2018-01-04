@@ -8,7 +8,7 @@ import Test.Hspec
 import Test.Validity
 import Test.Validity.Aeson
 
-import Data.GenValidity.UUID.Typed
+import Data.GenValidity.UUID.Typed ()
 import Data.UUID.Typed
 
 spec :: Spec

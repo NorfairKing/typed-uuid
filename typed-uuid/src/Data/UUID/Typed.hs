@@ -16,7 +16,7 @@ import Data.Text (Text)
 import Web.HttpApiData
 
 import Data.Validity
-import Data.Validity.UUID
+import Data.Validity.UUID ()
 
 import qualified Data.UUID as UUID
 import qualified Data.UUID.V4 as UUID
