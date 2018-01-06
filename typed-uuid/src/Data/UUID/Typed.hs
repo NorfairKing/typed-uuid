@@ -1,4 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 module Data.UUID.Typed where
 
@@ -9,10 +11,15 @@ import Text.Read
 import Control.DeepSeq
 import Data.Aeson as JSON
 import Data.Aeson.Types as JSON
+import Data.Binary
 import qualified Data.ByteString as SB
 import qualified Data.ByteString.Lazy as LB
+import Data.Data
+import Data.Hashable
 import qualified Data.Text as T
 import Data.Text (Text)
+import Foreign.Storable
+import System.Random
 import Web.HttpApiData
 
 import Data.Validity
@@ -23,7 +30,16 @@ import qualified Data.UUID.V4 as UUID
 
 newtype UUID a = UUID
     { unUUID :: UUID.UUID
-    } deriving (Eq, Generic)
+    } deriving ( Eq
+               , Ord
+               , Generic
+               , Data
+               , Storable
+               , Binary
+               , NFData
+               , Hashable
+               , Random
+               )
 
 instance Validity (UUID a)
 
@@ -54,8 +70,6 @@ parseUUID = fmap UUID . UUID.fromText
 parseUUIDString :: String -> Maybe (UUID a)
 parseUUIDString = fmap UUID . UUID.fromString
 
-instance NFData (UUID a)
-
 instance FromJSONKey (UUID a) where
     fromJSONKey = FromJSONKeyTextParser textJSONParseUUID
 
@@ -66,7 +80,7 @@ instance FromJSON (UUID a) where
     parseJSON = jsonParseUUID
 
 jsonParseUUID :: Value -> Parser (UUID a)
-jsonParseUUID = withText "PersonUuid" textJSONParseUUID
+jsonParseUUID = withText "UUID" textJSONParseUUID
 
 textJSONParseUUID :: Text -> Parser (UUID a)
 textJSONParseUUID t =
