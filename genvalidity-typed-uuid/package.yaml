@@ -1,5 +1,5 @@
 name:                genvalidity-typed-uuid
-version:             0.0.0.0
+version:             0.0.0.1
 github:              "NorfairKing/typed-uuid"
 license:             AllRightsReserved
 author:              "Tom Sydney Kerckhove"
@@ -19,8 +19,8 @@ dependencies:
 - QuickCheck
 - base >= 4.7 && < 5
 - genvalidity
-- genvalidity-uuid >=0.0 && <0.1
-- typed-uuid >=0.0 && <0.1
+- genvalidity-uuid >=0.0
+- typed-uuid >=0.0
 
 library:
   source-dirs: src
