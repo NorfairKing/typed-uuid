@@ -1,10 +1,10 @@
 name:                typed-uuid
-version:             0.0.0.1
+version:             0.0.0.0
 github:              "NorfairKing/typed-uuid"
-license:             AllRightsReserved
+license:             MIT
 author:              "Tom Sydney Kerckhove"
-maintainer:          "syd.kerckhove@gmail.com"
-copyright:           "Copyright: (c) 2018 Tom Sydney Kerckhove"
+maintainer:          "syd@cs-syd.eu"
+copyright:           "Copyright: (c) 2018-2019 Tom Sydney Kerckhove"
 
 extra-source-files:
 - README.md
