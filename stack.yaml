@@ -1,4 +1,11 @@
-resolver: lts-10.2
+resolver: lts-14.7
 packages:
 - typed-uuid
 - genvalidity-typed-uuid
+
+nix:
+  path: [ "nixpkgs=https://github.com/NixOS/nixpkgs/archive/e6b93257b0ba070bd12810eeacbe281396c24316.tar.gz" ]
+  add-gc-roots: true
+  packages:
+  - zlib
+
