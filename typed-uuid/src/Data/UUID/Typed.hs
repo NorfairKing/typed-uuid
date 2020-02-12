@@ -1,6 +1,7 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Data.UUID.Typed where
 
@@ -28,26 +29,19 @@ import Data.Validity.UUID ()
 import qualified Data.UUID as UUID
 import qualified Data.UUID.V4 as UUID
 
-newtype UUID a = UUID
+newtype UUID a =
+  UUID
     { unUUID :: UUID.UUID
-    } deriving ( Eq
-               , Ord
-               , Generic
-               , Data
-               , Storable
-               , Binary
-               , NFData
-               , Hashable
-               , Random
-               )
+    }
+  deriving (Eq, Ord, Generic, Data, Storable, Binary, NFData, Hashable, Random)
 
 instance Validity (UUID a)
 
 instance Show (UUID a) where
-    show (UUID u) = show u
+  show (UUID u) = show u
 
 instance Read (UUID a) where
-    readPrec = UUID <$> readPrec
+  readPrec = UUID <$> readPrec
 
 uuidBs :: UUID a -> SB.ByteString
 uuidBs (UUID uuid) = UUID.toASCIIBytes uuid
@@ -71,31 +65,31 @@ parseUUIDString :: String -> Maybe (UUID a)
 parseUUIDString = fmap UUID . UUID.fromString
 
 instance FromJSONKey (UUID a) where
-    fromJSONKey = FromJSONKeyTextParser textJSONParseUUID
+  fromJSONKey = FromJSONKeyTextParser textJSONParseUUID
 
 instance ToJSONKey (UUID a) where
-    toJSONKey = toJSONKeyText (UUID.toText . unUUID)
+  toJSONKey = toJSONKeyText (UUID.toText . unUUID)
 
 instance FromJSON (UUID a) where
-    parseJSON = jsonParseUUID
+  parseJSON = jsonParseUUID
 
 jsonParseUUID :: Value -> Parser (UUID a)
 jsonParseUUID = withText "UUID" textJSONParseUUID
 
 textJSONParseUUID :: Text -> Parser (UUID a)
 textJSONParseUUID t =
-    case UUID.fromText t of
-        Nothing -> fail "Invalid Text when parsing UUID"
-        Just u -> pure $ UUID u
+  case UUID.fromText t of
+    Nothing -> fail "Invalid Text when parsing UUID"
+    Just u -> pure $ UUID u
 
 instance ToJSON (UUID a) where
-    toJSON (UUID u) = JSON.String $ UUID.toText u
+  toJSON (UUID u) = JSON.String $ UUID.toText u
 
 instance FromHttpApiData (UUID a) where
-    parseUrlPiece t =
-        case UUID.fromText t of
-            Nothing -> fail $ "Invalid UUID in Url Piece: " ++ T.unpack t
-            Just uuid -> pure $ UUID uuid
+  parseUrlPiece t =
+    case UUID.fromText t of
+      Nothing -> Left $ "Invalid UUID in Url Piece: " <> t
+      Just uuid -> pure $ UUID uuid
 
 instance ToHttpApiData (UUID a) where
-    toUrlPiece (UUID uuid) = UUID.toText uuid
+  toUrlPiece (UUID uuid) = UUID.toText uuid
