@@ -4,7 +4,7 @@ packages:
 - genvalidity-typed-uuid
 extra-deps:
 - github: NorfairKing/validity
-  commit: be40c0a0b0bf6a1d58f4a6a5c6770c4a544c4450
+  commit: 0ddfd121ed48df95e1f5f9dd6ce99ca82130b53c
   subdirs:
   - genvalidity
   - genvalidity-aeson
