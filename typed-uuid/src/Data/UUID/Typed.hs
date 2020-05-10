@@ -3,13 +3,22 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Data.UUID.Typed where
-
-import Control.Monad.IO.Class
-import GHC.Generics
-import Text.Read
+module Data.UUID.Typed
+  ( UUID (..),
+    uuidText,
+    uuidString,
+    uuidASCIIBytes,
+    uuidLazyASCIIBytes,
+    nextRandomUUID,
+    parseUUIDText,
+    parseUUIDString,
+    parseUUIDAsciiBytes,
+    parseUUIDLazyAsciiBytes,
+  )
+where
 
 import Control.DeepSeq
+import Control.Monad.IO.Class
 import Data.Aeson as JSON
 import Data.Aeson.Types as JSON
 import Data.Binary
@@ -19,50 +28,58 @@ import Data.Data
 import Data.Hashable
 import qualified Data.Text as T
 import Data.Text (Text)
-import Foreign.Storable
-import System.Random
-import Web.HttpApiData
-
-import Data.Validity
-import Data.Validity.UUID ()
-
 import qualified Data.UUID as UUID
 import qualified Data.UUID.V4 as UUID
+import Data.Validity
+import Data.Validity.UUID ()
+import Foreign.Storable
+import GHC.Generics
+import System.Random
+import Text.Read
+import Web.HttpApiData
+import YamlParse.Applicative (YamlKeySchema (..), YamlSchema (..), extraParser, viaYamlSchema)
 
-newtype UUID a =
-  UUID
-    { unUUID :: UUID.UUID
-    }
-  deriving (Eq, Ord, Generic, Data, Storable, Binary, NFData, Hashable, Random)
+newtype UUID a
+  = UUID
+      { unUUID :: UUID.UUID
+      }
+  deriving (Eq, Ord, Generic, Data, Storable, Binary, NFData, Hashable, Random, Show, Read, Validity)
 
-instance Validity (UUID a)
-
-instance Show (UUID a) where
-  show (UUID u) = show u
-
-instance Read (UUID a) where
-  readPrec = UUID <$> readPrec
-
-uuidBs :: UUID a -> SB.ByteString
-uuidBs (UUID uuid) = UUID.toASCIIBytes uuid
-
-uuidLBs :: UUID a -> LB.ByteString
-uuidLBs = LB.fromStrict . uuidBs
-
-uuidString :: UUID a -> String
-uuidString (UUID uuid) = UUID.toString uuid
-
+-- | See 'UUID.toText'
 uuidText :: UUID a -> Text
 uuidText (UUID uuid) = UUID.toText uuid
 
+-- | See 'UUID.toString'
+uuidString :: UUID a -> String
+uuidString (UUID uuid) = UUID.toString uuid
+
+-- | See 'UUID.toASCIIBytes'
+uuidASCIIBytes :: UUID a -> SB.ByteString
+uuidASCIIBytes (UUID uuid) = UUID.toASCIIBytes uuid
+
+-- | See 'UUID.toLazyASCIIBytes'
+uuidLazyASCIIBytes :: UUID a -> LB.ByteString
+uuidLazyASCIIBytes (UUID uuid) = UUID.toLazyASCIIBytes uuid
+
+-- | See 'UUID.nextRandom'
 nextRandomUUID :: MonadIO m => m (UUID a)
 nextRandomUUID = liftIO $ UUID <$> UUID.nextRandom
 
-parseUUID :: Text -> Maybe (UUID a)
-parseUUID = fmap UUID . UUID.fromText
+-- | See 'UUID.fromText'
+parseUUIDText :: Text -> Maybe (UUID a)
+parseUUIDText = fmap UUID . UUID.fromText
 
+-- | See 'UUID.fromString'
 parseUUIDString :: String -> Maybe (UUID a)
 parseUUIDString = fmap UUID . UUID.fromString
+
+-- | See 'UUID.parseUUIDAsciiBytes'
+parseUUIDAsciiBytes :: SB.ByteString -> Maybe (UUID a)
+parseUUIDAsciiBytes = fmap UUID . UUID.fromASCIIBytes
+
+-- | See 'UUID.parseUUIDLazyAsciiBytes'
+parseUUIDLazyAsciiBytes :: LB.ByteString -> Maybe (UUID a)
+parseUUIDLazyAsciiBytes = fmap UUID . UUID.fromLazyASCIIBytes
 
 instance FromJSONKey (UUID a) where
   fromJSONKey = FromJSONKeyTextParser textJSONParseUUID
@@ -71,7 +88,13 @@ instance ToJSONKey (UUID a) where
   toJSONKey = toJSONKeyText (UUID.toText . unUUID)
 
 instance FromJSON (UUID a) where
-  parseJSON = jsonParseUUID
+  parseJSON = viaYamlSchema
+
+instance YamlSchema (UUID a) where
+  yamlSchema = extraParser textJSONParseUUID yamlSchema
+
+instance YamlKeySchema (UUID a) where
+  yamlKeySchema = extraParser textJSONParseUUID yamlKeySchema
 
 jsonParseUUID :: Value -> Parser (UUID a)
 jsonParseUUID = withText "UUID" textJSONParseUUID
