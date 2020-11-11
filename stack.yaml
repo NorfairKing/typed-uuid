@@ -1,11 +1,14 @@
-resolver: lts-14.23
+resolver: lts-15.15
 packages:
 - typed-uuid
 - genvalidity-typed-uuid
 extra-deps:
-- yamlparse-applicative-0.1.0.0@sha256:591058fe1c86731a3a4d239aa7acc14f23d3902a2045e7f6c8d5116690968125,2133
+- github: NorfairKing/yamlparse-applicative
+  commit: 1a42f1b03f7b59b2ea1ff75a59c5ba4e1f973065
+  subdirs:
+  - yamlparse-applicative
 - github: NorfairKing/validity
-  commit: 69dd9d1e5c9786b0c1feda51eba9e6590d399765
+  commit: c38fc635f98580548f82314504e9f8742519f94d
   subdirs:
   - genvalidity
   - genvalidity-aeson
@@ -41,7 +44,7 @@ extra-deps:
 
 
 nix:
-  path: [ "nixpkgs=https://github.com/NixOS/nixpkgs/archive/e6b93257b0ba070bd12810eeacbe281396c24316.tar.gz" ]
+  path: [ "nixpkgs=https://github.com/NixOS/nixpkgs/archive/e3a2247046d4de66b9b193a6ab3ff040fa3da86d.tar.gz" ]
   add-gc-roots: true
   packages:
   - zlib

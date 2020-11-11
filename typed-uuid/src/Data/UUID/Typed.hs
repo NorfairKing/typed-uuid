@@ -14,6 +14,8 @@ module Data.UUID.Typed
     parseUUIDString,
     parseUUIDAsciiBytes,
     parseUUIDLazyAsciiBytes,
+    jsonParseUUID,
+    textJSONParseUUID,
   )
 where
 
@@ -26,7 +28,6 @@ import qualified Data.ByteString as SB
 import qualified Data.ByteString.Lazy as LB
 import Data.Data
 import Data.Hashable
-import qualified Data.Text as T
 import Data.Text (Text)
 import qualified Data.UUID as UUID
 import qualified Data.UUID.V4 as UUID
@@ -35,9 +36,8 @@ import Data.Validity.UUID ()
 import Foreign.Storable
 import GHC.Generics
 import System.Random
-import Text.Read
 import Web.HttpApiData
-import YamlParse.Applicative (YamlKeySchema (..), YamlSchema (..), extraParser, viaYamlSchema)
+import YamlParse.Applicative (YamlKeySchema (..), YamlSchema (..), extraParser)
 
 newtype UUID a
   = UUID
@@ -88,16 +88,16 @@ instance ToJSONKey (UUID a) where
   toJSONKey = toJSONKeyText (UUID.toText . unUUID)
 
 instance FromJSON (UUID a) where
-  parseJSON = viaYamlSchema
+  parseJSON = jsonParseUUID
+
+jsonParseUUID :: Value -> Parser (UUID a)
+jsonParseUUID = withText "UUID" textJSONParseUUID
 
 instance YamlSchema (UUID a) where
   yamlSchema = extraParser textJSONParseUUID yamlSchema
 
 instance YamlKeySchema (UUID a) where
   yamlKeySchema = extraParser textJSONParseUUID yamlKeySchema
-
-jsonParseUUID :: Value -> Parser (UUID a)
-jsonParseUUID = withText "UUID" textJSONParseUUID
 
 textJSONParseUUID :: Text -> Parser (UUID a)
 textJSONParseUUID t =
