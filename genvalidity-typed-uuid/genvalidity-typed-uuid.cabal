@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e690b1a8182d5ba11d02e71ebeba6d6df60e4ff46b2d5a384daec4988a6f5e2e
+-- hash: e3d98df6066cbcfbadf9f09035eb07b5fd1aba2da97f77a498b63ca71e5a79eb
 
 name:           genvalidity-typed-uuid
 version:        0.0.0.2
@@ -37,7 +37,7 @@ library
   build-depends:
       QuickCheck
     , base >=4.7 && <5
-    , genvalidity
+    , genvalidity >=1.0
     , genvalidity-uuid >=0.0
     , typed-uuid >=0.0
   default-language: Haskell2010
@@ -54,7 +54,7 @@ test-suite typed-uuid-test
   build-depends:
       QuickCheck
     , base >=4.7 && <5
-    , genvalidity
+    , genvalidity >=1.0
     , genvalidity-hspec
     , genvalidity-hspec-aeson
     , genvalidity-typed-uuid

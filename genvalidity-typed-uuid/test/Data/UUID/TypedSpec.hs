@@ -13,6 +13,6 @@ import Test.Validity.Aeson
 
 spec :: Spec
 spec = do
-  eqSpecOnValid @(UUID Int)
+  eqSpec @(UUID Int)
   genValidSpec @(UUID Int)
-  jsonSpecOnValid @(UUID Int)
+  jsonSpec @(UUID Int)

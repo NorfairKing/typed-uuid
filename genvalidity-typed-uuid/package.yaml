@@ -18,7 +18,7 @@ description:         Please see the README on Github at <https://github.com/Norf
 dependencies:
 - QuickCheck
 - base >= 4.7 && < 5
-- genvalidity
+- genvalidity >= 1.0
 - genvalidity-uuid >=0.0
 - typed-uuid >=0.0
 
