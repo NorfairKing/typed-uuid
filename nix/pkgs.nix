@@ -1,15 +1,15 @@
+{ sources ? import ./sources.nix
+}:
 let
-  pkgsv = import (import ./nixpkgs.nix);
-  pkgs = pkgsv {};
-  validity-overlay = import (pkgs.fetchFromGitHub (import ./validity-version.nix) + "/nix/overlay.nix");
-  yamlparse-applicative-overlay = import (pkgs.fetchFromGitHub (import ./yamlparse-applicative-version.nix) + "/nix/overlay.nix");
-  typedUuidPkgs = pkgsv {
-    overlays = [
-      validity-overlay
-      yamlparse-applicative-overlay
-      (import ./gitignore-src.nix)
-      (import ./overlay.nix)
-    ];
-    config.allowUnfree = true;
-  };
-in typedUuidPkgs
+  pkgsv = import sources.nixpkgs;
+in
+import sources.nixpkgs {
+  overlays = [
+    (import (sources.validity + "/nix/overlay.nix"))
+    (import (sources.autodocodec + "/nix/overlay.nix"))
+    (final: previous: { inherit (import sources.gitignore { inherit (final) lib; }) gitignoreSource; })
+    (import ./gitignore-src.nix)
+    (import ./overlay.nix)
+  ];
+  config.allowUnfree = true;
+}

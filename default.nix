@@ -1,3 +1,4 @@
 let
-  pkgs = import ./nix/pkgs.nix;
-in pkgs.typedUuidPackages
+  pkgs = import ./nix/pkgs.nix {};
+in
+pkgs.typedUuidPackages

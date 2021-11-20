@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingVia #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -19,6 +20,7 @@ module Data.UUID.Typed
   )
 where
 
+import Autodocodec
 import Control.DeepSeq
 import Control.Monad.IO.Class
 import Data.Aeson as JSON
@@ -37,13 +39,14 @@ import Foreign.Storable
 import GHC.Generics
 import System.Random
 import Web.HttpApiData
-import YamlParse.Applicative (YamlKeySchema (..), YamlSchema (..), extraParser)
 
 newtype UUID a
   = UUID
       { unUUID :: UUID.UUID
       }
-  deriving (Eq, Ord, Generic, Data, Storable, Binary, NFData, Hashable, Random, Show, Read, Validity)
+  deriving stock (Eq, Ord, Generic, Show, Read, Data)
+  deriving newtype (Storable, Binary, NFData, Hashable, Random, Validity)
+  deriving (FromJSON, ToJSON) via (Autodocodec (UUID a))
 
 -- | See 'UUID.toText'
 uuidText :: UUID a -> Text
@@ -87,26 +90,22 @@ instance FromJSONKey (UUID a) where
 instance ToJSONKey (UUID a) where
   toJSONKey = toJSONKeyText (UUID.toText . unUUID)
 
-instance FromJSON (UUID a) where
-  parseJSON = jsonParseUUID
-
 jsonParseUUID :: Value -> Parser (UUID a)
 jsonParseUUID = withText "UUID" textJSONParseUUID
 
-instance YamlSchema (UUID a) where
-  yamlSchema = extraParser textJSONParseUUID yamlSchema
-
-instance YamlKeySchema (UUID a) where
-  yamlKeySchema = extraParser textJSONParseUUID yamlKeySchema
+instance HasCodec (UUID a) where
+  codec = bimapCodec f uuidText codec
+    where
+      f t =
+        case UUID.fromText t of
+          Nothing -> Left "Invalid Text when parsing UUID"
+          Just u -> Right $ UUID u
 
 textJSONParseUUID :: Text -> Parser (UUID a)
 textJSONParseUUID t =
   case UUID.fromText t of
     Nothing -> fail "Invalid Text when parsing UUID"
     Just u -> pure $ UUID u
-
-instance ToJSON (UUID a) where
-  toJSON (UUID u) = JSON.String $ UUID.toText u
 
 instance FromHttpApiData (UUID a) where
   parseUrlPiece t =

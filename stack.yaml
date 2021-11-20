@@ -3,49 +3,21 @@ packages:
 - typed-uuid
 - genvalidity-typed-uuid
 extra-deps:
-- github: NorfairKing/yamlparse-applicative
-  commit: 1a42f1b03f7b59b2ea1ff75a59c5ba4e1f973065
+- github: NorfairKing/autodocodec
+  commit: f0cb2ead0985b4394db0627e6befd7ce23c54c22
   subdirs:
-  - yamlparse-applicative
+  - autodocodec
 - github: NorfairKing/validity
   commit: 35bc8d45b27e6c21429e4b681b16e46ccd541b3b
   subdirs:
   - genvalidity
-  - genvalidity-aeson
-  - genvalidity-bytestring
-  - genvalidity-containers
-  - genvalidity-criterion
   - genvalidity-hspec
   - genvalidity-hspec-aeson
-  - genvalidity-hspec-binary
-  - genvalidity-hspec-cereal
-  - genvalidity-hspec-hashable
-  - genvalidity-hspec-optics
-  - genvalidity-path
   - genvalidity-property
-  - genvalidity-scientific
-  - genvalidity-text
-  - genvalidity-time
-  - genvalidity-unordered-containers
   - genvalidity-uuid
-  - genvalidity-vector
   - validity
-  - validity-aeson
-  - validity-bytestring
-  - validity-containers
-  - validity-path
-  - validity-primitive
-  - validity-scientific
-  - validity-text
-  - validity-time
-  - validity-unordered-containers
   - validity-uuid
-  - validity-vector
 
 
 nix:
-  path: [ "nixpkgs=https://github.com/NixOS/nixpkgs/archive/359e6542e1d41eb18df55c82bdb08bf738fae2cf.tar.gz" ]
-  add-gc-roots: true
-  packages:
-  - zlib
-
+  shell-file: shell.nix
