@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e3d98df6066cbcfbadf9f09035eb07b5fd1aba2da97f77a498b63ca71e5a79eb
+-- hash: 8e83528c13a24a4ec93c8a43141f40620fa13e5ade311e03fdaef8c7a7a0a09c
 
 name:           genvalidity-typed-uuid
-version:        0.0.0.2
+version:        0.1.0.0
 synopsis:       Generators for Phantom-Typed version of UUID
 description:    Please see the README on Github at <https://github.com/NorfairKing/typed-uuid#readme>
 category:       Data
