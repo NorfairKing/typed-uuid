@@ -11,6 +11,7 @@ extra-deps:
   commit: 35bc8d45b27e6c21429e4b681b16e46ccd541b3b
   subdirs:
   - genvalidity
+  - genvalidity-criterion
   - genvalidity-hspec
   - genvalidity-hspec-aeson
   - genvalidity-property

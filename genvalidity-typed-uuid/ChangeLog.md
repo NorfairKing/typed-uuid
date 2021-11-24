@@ -1,5 +1,11 @@
 # Changelog for typed-uuid
 
+## [0.1.0.1] - 2021-11-23
+
+### Changed
+
+* Compatibility with `genvalidity >=1.0.0.0`, also for the benchmarks.
+
 ## [0.1.0.0] - 2021-11-23
 
 ### Changed
