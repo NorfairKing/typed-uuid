@@ -1,19 +1,30 @@
-final:
-previous:
+final: prev:
+with final.lib;
 with final.haskell.lib;
 {
-  typedUuidPackages =
-    let
-      pkg = name: buildStrictly (final.haskellPackages.callCabal2nixWithOptions name (final.gitignoreSource (../. + "/${name}")) "--no-hpack" {});
-    in
-      final.lib.genAttrs [
-        "typed-uuid"
-        "genvalidity-typed-uuid"
-      ] pkg;
-  haskellPackages = previous.haskellPackages.override (
+  typedUuidRelease = final.symlinkJoin {
+    name = "typed-uuid-release";
+    paths = attrValues final.haskellPackages.typedUuidPackages;
+  };
+  haskellPackages = prev.haskellPackages.override (
     old: {
-      overrides = final.lib.composeExtensions (old.overrides or (_: _: {})) (
-        self: super: final.typedUuidPackages
+      overrides = final.lib.composeExtensions (old.overrides or (_: _: { })) (
+        self: super:
+          let
+            typedUuidPackages =
+              let
+                pkg = name:
+                  buildStrictly (self.callPackage (../${name}/default.nix) { });
+              in
+              genAttrs [
+                "typed-uuid"
+                "genvalidity-typed-uuid"
+              ]
+                pkg;
+          in
+          {
+            inherit typedUuidPackages;
+          } // typedUuidPackages
       );
     }
   );

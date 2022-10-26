@@ -1,10 +1,10 @@
-name:                genvalidity-typed-uuid
-version:             0.1.0.1
-github:              "NorfairKing/typed-uuid"
-license:             MIT
-author:              "Tom Sydney Kerckhove"
-maintainer:          "syd@cs-syd.eu"
-copyright:           "Copyright: (c) 2018-2020 Tom Sydney Kerckhove"
+name: genvalidity-typed-uuid
+version: 0.1.0.1
+github: "NorfairKing/typed-uuid"
+license: MIT
+author: "Tom Sydney Kerckhove"
+maintainer: "syd@cs-syd.eu"
+copyright: "Copyright: (c) 2018-2022 Tom Sydney Kerckhove"
 
 extra-source-files:
 - README.md
@@ -12,8 +12,6 @@ extra-source-files:
 
 synopsis:            Generators for Phantom-Typed version of UUID
 category:            Data
-
-description:         Please see the README on Github at <https://github.com/NorfairKing/typed-uuid#readme>
 
 dependencies:
 - QuickCheck

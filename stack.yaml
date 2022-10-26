@@ -1,4 +1,4 @@
-resolver: lts-16.12
+resolver: lts-19.6
 packages:
 - typed-uuid
 - genvalidity-typed-uuid
@@ -19,6 +19,7 @@ extra-deps:
   - validity
   - validity-uuid
 
-
+system-ghc: true
 nix:
-  shell-file: shell.nix
+  enable: false
+with-hpack: hpack
