@@ -40,10 +40,9 @@ import GHC.Generics
 import System.Random
 import Web.HttpApiData
 
-newtype UUID a
-  = UUID
-      { unUUID :: UUID.UUID
-      }
+newtype UUID a = UUID
+  { unUUID :: UUID.UUID
+  }
   deriving stock (Eq, Ord, Generic, Show, Read, Data)
   deriving newtype (Storable, Binary, NFData, Hashable, Random, Validity)
   deriving (FromJSON, ToJSON) via (Autodocodec (UUID a))

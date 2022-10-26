@@ -1,21 +1,20 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.34.6.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1235b07162ca1fe1139a223b3863aaf2c7fc25e74589485f95b5191f2baca3b4
+-- hash: 0262df213f33904b00e371dd89842369686849348951143be9c44a1735307906
 
 name:           typed-uuid
 version:        0.2.0.0
 synopsis:       Phantom-Typed version of UUID
-description:    Please see the README on Github at <https://github.com/NorfairKing/typed-uuid#readme>
 category:       Data
 homepage:       https://github.com/NorfairKing/typed-uuid#readme
 bug-reports:    https://github.com/NorfairKing/typed-uuid/issues
 author:         Tom Sydney Kerckhove
 maintainer:     syd@cs-syd.eu
-copyright:      Copyright: (c) 2018-2019 Tom Sydney Kerckhove
+copyright:      Copyright: (c) 2018-2022 Tom Sydney Kerckhove
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
