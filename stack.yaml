@@ -1,23 +1,7 @@
-resolver: lts-19.6
+resolver: lts-20.23
 packages:
 - typed-uuid
 - genvalidity-typed-uuid
-extra-deps:
-- github: NorfairKing/autodocodec
-  commit: f0cb2ead0985b4394db0627e6befd7ce23c54c22
-  subdirs:
-  - autodocodec
-- github: NorfairKing/validity
-  commit: 35bc8d45b27e6c21429e4b681b16e46ccd541b3b
-  subdirs:
-  - genvalidity
-  - genvalidity-criterion
-  - genvalidity-hspec
-  - genvalidity-hspec-aeson
-  - genvalidity-property
-  - genvalidity-uuid
-  - validity
-  - validity-uuid
 
 system-ghc: true
 nix:

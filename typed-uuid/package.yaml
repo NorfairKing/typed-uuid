@@ -4,7 +4,7 @@ github: "NorfairKing/typed-uuid"
 license: MIT
 author: "Tom Sydney Kerckhove"
 maintainer: "syd@cs-syd.eu"
-copyright: "Copyright: (c) 2018-2022 Tom Sydney Kerckhove"
+copyright: "Copyright: (c) 2018-2023 Tom Sydney Kerckhove"
 
 extra-source-files:
 - README.md
