@@ -1,16 +1,17 @@
 {
   description = "typed-uuid";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-23.11";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    nixpkgs-23_05.url = "github:NixOS/nixpkgs?ref=nixos-23.05";
     nixpkgs-22_11.url = "github:NixOS/nixpkgs?ref=nixos-22.11";
   };
 
   outputs =
     { self
     , nixpkgs
+    , nixpkgs-23_05
     , nixpkgs-22_11
-    , flake-utils
     , pre-commit-hooks
     }:
     let
@@ -33,6 +34,7 @@
             in pkgs'.typedUuidRelease;
           allNixpkgs = {
             inherit
+              nixpkgs-23_05
               nixpkgs-22_11;
           };
           backwardCompatibilityChecks = pkgs.lib.mapAttrs (_: nixpkgs: backwardCompatibilityCheckFor nixpkgs) allNixpkgs;
