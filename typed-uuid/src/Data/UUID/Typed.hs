@@ -64,7 +64,7 @@ uuidLazyASCIIBytes :: UUID a -> LB.ByteString
 uuidLazyASCIIBytes (UUID uuid) = UUID.toLazyASCIIBytes uuid
 
 -- | See 'UUID.nextRandom'
-nextRandomUUID :: MonadIO m => m (UUID a)
+nextRandomUUID :: (MonadIO m) => m (UUID a)
 nextRandomUUID = liftIO $ UUID <$> UUID.nextRandom
 
 -- | See 'UUID.fromText'
